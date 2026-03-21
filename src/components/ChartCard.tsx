@@ -1,14 +1,51 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  BarChart,
+  Bar,
+} from "recharts";
 
-const ChartCard = ({ data }: any) => {
+export const LineChartCard = ({ data }: any) => {
   return (
-    <LineChart width={400} height={250} data={data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Line type="monotone" dataKey="users" stroke="#8884d8" />
-    </LineChart>
+    <div
+      style={{
+        background: "#fff",
+        padding: 20,
+        borderRadius: 12,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+      }}
+    >
+      <h3>User Growth</h3>
+      <LineChart width={400} height={250} data={data}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Line type="monotone" dataKey="users" stroke="#6366f1" />
+      </LineChart>
+    </div>
   );
 };
 
-export default ChartCard;
+export const BarChartCard = ({ data }: any) => {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        padding: 20,
+        borderRadius: 12,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+      }}
+    >
+      <h3>Monthly Activity</h3>
+      <BarChart width={400} height={250} data={data}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="users" fill="#22c55e" />
+      </BarChart>
+    </div>
+  );
+};
