@@ -1,21 +1,15 @@
-# Analytics Dashboard (React + TypeScript)
+Best feature 1: Search/filter in recent activity
 
-A modern analytics dashboard built using React, TypeScript, and Recharts.
+This looks practical and is easy to explain.
 
-## Features
-- KPI Cards (Users, Revenue, Active Users)
-- Interactive Charts
-- API Simulation
-- Modular Component Architecture
+Best feature 2: Dark/light mode toggle
 
-## Tech Stack
-- React
-- TypeScript
-- Recharts
-- Axios
+Very visible in demo, nice UI touch, low risk.
 
-## Purpose
-Built as a demo project to showcase frontend architecture, data visualization, and clean code practices.
+Best feature 3: Simple “Export Report” button
 
-## Author
-Syed Mohsin Ali Zaidi
+Even if it just downloads mock CSV data, it looks product-oriented.
+
+Best feature 4: Date range actually changes the data
+
+Super impressive because it shows state handling and dynamic charts.
