@@ -1,84 +1,85 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { loginUser } from "../services/api";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin");
+  const [password, setPassword] = useState("admin1");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
- const handleLogin = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
-    if (!res.ok) throw new Error();
-
-    const data = await res.json();
-
-    // ✅ STORE TOKEN (IMPORTANT)
-    localStorage.setItem("token", data.token);
-
-    navigate("/dashboard");
-  } catch {
-    alert("Invalid credentials");
-  }
-};
+    try {
+      const data = await loginUser({ email, password });
+      localStorage.setItem("token", data.token);
+      navigate("/dashboard");
+    } catch {
+      setError("Invalid credentials");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#0f172a",
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          padding: 30,
-          borderRadius: 12,
-          width: 300,
-        }}
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8"
       >
-        <h2 style={{ marginBottom: 20 }}>Login</h2>
+        <div className="mb-8">
+          <p className="text-sm text-slate-500">Welcome to</p>
+          <h1 className="text-3xl font-bold mt-1">Dedale Analytics</h1>
+          <p className="text-slate-500 mt-2">
+            Sign in to access your dashboard
+          </p>
+        </div>
 
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ width: "100%", padding: 10, marginBottom: 10 }}
-        />
+        <div className="mb-4">
+          <label className="text-sm font-medium text-slate-700 block mb-2">
+            Username
+          </label>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter username"
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ width: "100%", padding: 10, marginBottom: 20 }}
-        />
+        <div className="mb-4">
+          <label className="text-sm font-medium text-slate-700 block mb-2">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter password"
+          />
+        </div>
+
+        {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
 
         <button
-          onClick={handleLogin}
-          style={{
-            width: "100%",
-            padding: 10,
-            background: "#6366f1",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-          }}
+          type="submit"
+          disabled={isLoading}
+          className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-xl py-3 font-semibold transition"
         >
-          Login
+          {isLoading ? "Signing In..." : "Sign In"}
         </button>
-      </div>
+
+        <p className="text-xs text-slate-500 mt-5 text-center">
+          Demo login: admin / admin
+        </p>
+      </form>
     </div>
   );
 };
